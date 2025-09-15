@@ -1,4 +1,7 @@
+from time import sleep
+
 agenda = []
+
 def carregar_agenda():
     try:
         with open('contatos.txt', 'r', encoding='utf-8') as arquivo:
@@ -37,10 +40,11 @@ def listagem():
     except FileNotFoundError:
         print("Lista de contatos não identifica.")
 
-def pesquisa(contato):
+def pesquisa():
+    nome = str(input('Digite o nome a ser pesquisado: ')).title().strip()
     encontrou = False
     for c in agenda:
-        if c['Nome'] == contato:
+        if c['Nome'] == nome:
             encontrou = True
             print('-=' * 15)
             print(f"{c['Nome']}, {c['Telefone']}, {c['Email']}")
@@ -48,15 +52,21 @@ def pesquisa(contato):
         print('-=' * 15)
         print('Contato não encontrado.')
 
-def remover(nome):
+def remover():
+    nome = str(input('Digite o contato a ser excluído: ')).title().strip()
     encontrou = False
-    for c in agenda:
+    for i, c in enumerate(agenda):
         if c['Nome'] == nome:
             encontrou = True
-            
+            del agenda[i]
+            with open('contatos.txt', 'w', encoding='utf-8') as arquivo:
+                for c in agenda:
+                    arquivo.write(f"{c['Nome']}, {c['Telefone']}, {c['Email']}\n")
+            print('Contato removido com sucesso!')
+            break
     if not encontrou:
         print('-=' * 15)
-        print('O contato a ser excluido não foi encontrado')
+        print('Contato não encontrado.')
 
 while True:
     print('-=' * 15)
@@ -72,11 +82,12 @@ while True:
     elif opcao == 2:
         listagem()
     elif opcao == 3:
-        pesquisar = str(input('Digite o nome a ser pesquisado: ')).title().strip()
-        pesquisa(pesquisar)
+        pesquisa()
     elif opcao == 4:
-        remova = str(input('Digite o nome do contato a ser excluído: '))
-        remover(remova)
+        remover()
     elif opcao == 5:
         print('Programa finalizado. Volte sempre!')
         break
+    else:
+        print('Opção inválida, tente novamente.')
+        sleep(3)

@@ -1,3 +1,0 @@
-Eduardo, 5489999999, Eduardo@gmail.com
-Cruz, 54999999, Cruz@gmail.com
-Julia, 549998888, Julia@gmail.com
